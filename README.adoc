@@ -1,0 +1,104 @@
+= Image Diff (imgdiff)
+
+Goes through two images pixel by pixed and generates a diff image.
+
+Run as:
+
+  imgdiff a.png b.png -o c.png
+
+The default diff is `a - b`. There is a `--reverse` option to do `b - a`.
+
+Alpha channel differences are ignored and the resulting image has every pixel at 255.
+
+== Examples
+
+Given The following baselines:
+
+|===
+|A|B (Has transparency)
+
+a|image::./test_data/A.png[]
+a|image::./test_data/B.png[]
+
+
+a|C (`imagediff A.png B.png -o C.png`) +
+`A - B = C`
+a|B’ (`imagediff A.png C.png -o Bp.png`) +
+`A - C = B’` +
+B == B’ except for Alpha loss
+
+a|image::./test_data/C.png[]
+a|image::./test_data/Bp.png[]
+
+|===
+
+Reverse case:
+
+[cols='1,1']
+|===
+
+a|C (`imagediff A.png B.png -o Cr.png --reverse`) +
+`B - A = Cr`
+a|A’ (`imagediff Cr.png B.png -o Ap.png`) +
+`B - Cr = A’` +
+A == A’ except for Alpha loss
+
+a|image::./test_data/Cr.png[]
+a|image::./test_data/Ap.png[]
+
+|===
+
+Show diff based on a different baseline (White):
+
+[cols='1,1']
+|===
+
+a|Cbase (`imagediff A.png B.png -o Cbase.png --base 255`) +
+`A - B = Cbase`
+a|Cbasereverse (`imagediff A.png B.png -o Cbasereverse.png --reverse --base 255`) +
+`B - A = Cbasereverse`
+
+a|image::./test_data/Cbase.png[]
+a|image::./test_data/Cbasereverse.png[]
+
+|===
+
+Highlight differences in Red:
+
+[cols='1,1']
+|===
+
+a|Cred (`imagediff A.png B.png -o Cred.png --color`) +
+`A - B = Cred`
+a|Credreverse (`imagediff A.png B.png -o Credreverse.png --reverse --color`) +
+`B - A = Credreverse`
+
+a|image::./test_data/Cred.png[]
+a|image::./test_data/Credreverse.png[]
+
+|===
+
+Amplify differences (Set pixel color to 255 or 0 (depending on base) when there is a difference in that color):
+
+[cols='1,1']
+|===
+
+a|Camplify (`imagediff A.png B.png -o Camplify.png --amplify`) +
+`A - B = Camplify`
+a|Camplifybase (`imagediff A.png B.png -o Camplifybase.png --base 255 --amplify`) +
+`B - A = Camplifybase`
+
+a|image::./test_data/Camplify.png[]
+a|image::./test_data/Camplifybase.png[]
+
+|===
+
+== LICENSE
+
+This file is part of imgdiff.
+
+Copyright (C) 2017  David Gamba Rios
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
